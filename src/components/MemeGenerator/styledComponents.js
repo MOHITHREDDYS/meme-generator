@@ -93,5 +93,5 @@ export const TextElement = styled.p`
   color: #ffffff;
   margin: 0px;
   text-align: center;
-  font-size: ${props => props.fontSize}px;
+  font-size: ${props => props.font}px;
 `

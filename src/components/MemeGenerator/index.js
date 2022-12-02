@@ -49,6 +49,10 @@ class MemeGenerator extends Component {
     imageUrl: '',
     topText: '',
     bottomText: '',
+    image: '',
+    top: '',
+    bottom: '',
+    font: '8',
     allDetailsGiven: false,
   }
 
@@ -71,10 +75,16 @@ class MemeGenerator extends Component {
   onClickingGenerateButton = event => {
     event.preventDefault()
 
-    const {imageUrl, topText, bottomText} = this.state
+    const {imageUrl, topText, bottomText, fontSize} = this.state
 
     return imageUrl !== '' && topText !== '' && bottomText !== ''
-      ? this.setState({allDetailsGiven: true})
+      ? this.setState({
+          image: imageUrl,
+          top: topText,
+          bottom: bottomText,
+          font: fontSize,
+          allDetailsGiven: true,
+        })
       : this.setState({allDetailsGiven: false})
   }
 
@@ -85,8 +95,12 @@ class MemeGenerator extends Component {
       topText,
       bottomText,
       allDetailsGiven,
+      image,
+      top,
+      bottom,
+      font,
     } = this.state
-    console.log(this.state)
+    // console.log(this.state)
 
     return (
       <MainContainer>
@@ -95,14 +109,13 @@ class MemeGenerator extends Component {
             <Heading>Meme Generator</Heading>
 
             {allDetailsGiven && (
-              <MemeContainer
-                imageUrl={imageUrl}
-                fontSize={fontSize}
-                mobile
-                data-testid="meme"
-              >
-                <TextElement>{topText}</TextElement>
-                <TextElement>{bottomText}</TextElement>
+              <MemeContainer imageUrl={image} mobile data-testid="meme">
+                <TextElement as="p" font={font}>
+                  {top}
+                </TextElement>
+                <TextElement as="p" font={font}>
+                  {bottom}
+                </TextElement>
               </MemeContainer>
             )}
 
@@ -113,16 +126,16 @@ class MemeGenerator extends Component {
               value={imageUrl}
               onChange={this.onChangingImage}
             />
-            <LabelElement htmlFor="topText">Top Text</LabelElement>
+            <LabelElement htmlFor="topTexts">Top Text</LabelElement>
             <InputElement
-              id="topText"
+              id="topTexts"
               placeholder="Enter the Top Text"
               value={topText}
               onChange={this.onChangingTopText}
             />
-            <LabelElement htmlFor="bottomText">Bottom Text</LabelElement>
+            <LabelElement htmlFor="bottomTexts">Bottom Text</LabelElement>
             <InputElement
-              id="bottomText"
+              id="bottomTexts"
               placeholder="Enter the Bottom Text"
               value={bottomText}
               onChange={this.onChangingBottomText}
@@ -143,13 +156,9 @@ class MemeGenerator extends Component {
             <GenerateButton type="submit">Generate</GenerateButton>
           </FormContainer>
           {allDetailsGiven && (
-            <MemeContainer imageUrl={imageUrl}>
-              <TextElement as="p" fontSize={fontSize}>
-                {topText}
-              </TextElement>
-              <TextElement as="p" fontSize={fontSize}>
-                {bottomText}
-              </TextElement>
+            <MemeContainer imageUrl={image}>
+              <TextElement font={font}>{top}</TextElement>
+              <TextElement font={font}>{bottom}</TextElement>
             </MemeContainer>
           )}
         </Container>
